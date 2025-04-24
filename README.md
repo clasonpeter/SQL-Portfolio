@@ -1,2 +1,1 @@
-# SQL-Portfolio
-SQL Portfolio 
+# This portfolio is a showcase of my SQL skills .
