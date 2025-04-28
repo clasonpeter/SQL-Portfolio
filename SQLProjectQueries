@@ -1,0 +1,119 @@
+Queries With Results
+
+Find all orders for Pokemon cards processed by employee Robert Wilson, sort by price.
+select C.CName, C.CBrand, CO.CODate, CO.COPrice, E.EL
+from CARD as C
+Inner join DETAIL as D ON C.CID = D.CID
+Inner join CORDER as CO ON D.COID = CO.COID
+Inner join EMPLOYEE as E ON CO.EID = E.EID
+where C.CBrand = 'Pokemon' AND E.EL = 'Wilson'
+Order by CO.COPrice DESC;
+
++-----------+---------+------------+---------+--------+
+| CName     | CBrand  | CODate     | COPrice | EL     |
++-----------+---------+------------+---------+--------+
+| Blastoise | Pokemon | 2023-02-20 | 3549.92 | Wilson |
+| Venusaur  | Pokemon | 2023-02-20 | 3549.92 | Wilson |
+| Charizard | Pokemon | 2023-01-15 |  899.99 | Wilson |
++-----------+---------+------------+---------+--------+
+
+
+Calculate exact average price of cards in each set.
+	select S.SName as SetName, AVG(C.CPrice) as AvgPrice
+From CSET as S
+Inner join CARD as C on S.SID = C.SID
+Group by S.SID;
++------------------+--------------+
+| SetName          | AvgPrice     |
++------------------+--------------+
+| Pokemon Base Set |   616.656667 |
+| Yu-Gi-Oh! LOB    |   499.990000 |
+| Magic Core 2021  | 13250.000000 |
++------------------+--------------+
+
+
+Customers with their orders and phone numbers from 2022 and later (including non-orderers).
+select CU.CF, CU.CL, P.CPhone, O.COID, O.CODate
+from CUSTOMER as CU
+Left join  CORDER as O ON CU.CNum = O.CNum
+Left join CPHONE P ON CU.CNum = P.CNum 
+where O.CODate >= '2022-01-01' 
+Order by CU.CL, O.CODate DESC;
++---------+----------+--------------+------+------------+
+| CF      | CL       | CPhone       | COID | CODate     |
++---------+----------+--------------+------+------------+
+| Emily   | Johnson  | 555-234-5678 | 7004 | 2023-04-05 |
+| John    | Smith    | 555-123-4567 | 7003 | 2023-03-10 |
+| John    | Smith    | 555-987-6543 | 7003 | 2023-03-10 |
+| John    | Smith    | 555-123-4567 | 7002 | 2023-02-20 |
+| John    | Smith    | 555-987-6543 | 7002 | 2023-02-20 |
+| John    | Smith    | 555-123-4567 | 7001 | 2023-01-15 |
+| John    | Smith    | 555-987-6543 | 7001 | 2023-01-15 |
+| Michael | Williams | 555-345-6789 | 7005 | 2023-05-12 |
++---------+----------+--------------+------+------------+
+
+
+
+Count how many cards of each brand each customer has purchased.
+select C.CF, C.CL, CD.CBrand, sum(D.OQty) as CardsPurchased
+from CUSTOMER as C
+Inner join CORDER as CO ON C.CNum = CO.CNum
+Inner join DETAIL as D ON CO.COID = D.COID
+Inner join CARD as CD ON D.CID = CD.CID
+Group by C.CNum, CD.CBrand;
++---------+----------+-----------+----------------+
+| CF      | CL       | CBrand    | CardsPurchased |
++---------+----------+-----------+----------------+
+| John    | Smith    | Pokemon   |              9 |
+| John    | Smith    | Magic     |              1 |
+| Emily   | Johnson  | Yu-Gi-Oh! |              2 |
+| Emily   | Johnson  | Pokemon   |              1 |
+| Michael | Williams | Magic     |              5 |
++---------+----------+-----------+----------------+
+
+
+Find customers who spent more than $1000 in total.
+select C.CF, C.CL, sum(CO.COPrice) as TotalSpent
+From CUSTOMER as C
+Inner join CORDER as CO ON C.CNum = CO.CNum
+Group by C.CNum
+having TotalSpent > 1000
+Order by TotalSpent DESC;
++---------+----------+------------+
+| CF      | CL       | TotalSpent |
++---------+----------+------------+
+| Michael | Williams |   31000.00 |
+| John    | Smith    |   29449.91 |
+| Emily   | Johnson  |    1349.97 |
++---------+----------+------------+
+
+
+Find the most expensive card.
+select C.CID, C.CName, C.CPrice
+from CARD as C
+where C.CPrice = (select max(C.CPrice) from CARD as C)
+Order by C.CPrice DESC;
++--------+-------------+----------+
+| CID    | CName       | CPrice   |
++--------+-------------+----------+
+| PLA001 | Black Lotus | 25000.00 |
++--------+-------------+----------+
+
+All members, their order counts, and total spending, but only include those who've spent over $500 total, sorted from highest to lowest spenders.
+
+select M.MJoinDate, CU.CF, CU.CL, count(O.COID) as OrderCount, sum(O.COPrice) as TotalSpent
+From MEMBER as M
+Inner join CUSTOMER as CU on M.CNum = CU.CNum
+Left join CORDER as O on CU.CNum = O.CNum
+Group by M.CNum
+having TotalSpent > 500
+Order by TotalSpent DESC;
+
++------------+---------+----------+------------+------------+
+| MJoinDate  | CF      | CL       | OrderCount | TotalSpent |
++------------+---------+----------+------------+------------+
+| 2021-02-20 | Michael | Williams |          1 |   31000.00 |
+| 2020-05-15 | John    | Smith    |          3 |   29449.91 |
++------------+---------+----------+------------+------------+
+
+
