@@ -1,0 +1,192 @@
+Table Description and Data
+
+CUSTOMER TABLE
+
+describe CUSTOMER;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| CNum  | int         | NO   | PRI | NULL    |       |
+| CF    | varchar(50) | YES  |     | NULL    |       |
+| CL    | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+
+select * from CUSTOMER;
++------+---------+----------+
+| CNum | CF      | CL       |
++------+---------+----------+
+| 1001 | John    | Smith    |
+| 1002 | Emily   | Johnson  |
+| 1003 | Michael | Williams |
+| 1004 | Sarah   | Brown    |
+| 1005 | David   | Jones    |
++------+---------+----------+
+
+
+MEMBER TABLE
+
+describe MEMBER;
++-----------+------+------+-----+---------+-------+
+| Field     | Type | Null | Key | Default | Extra |
++-----------+------+------+-----+---------+-------+
+| CNum      | int  | NO   | PRI | NULL    |       |
+| MJoinDate | date | YES  |     | NULL    |       |
++-----------+------+------+-----+---------+-------+
+
+select * from MEMBER;
++------+------------+
+| CNum | MJoinDate  |
++------+------------+
+| 1001 | 2020-05-15 |
+| 1003 | 2021-02-20 |
+| 1005 | 2022-01-10 |
++------+------------+
+
+EMPLOYEE TABLE
+
+describe EMPLOYEE;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| EID   | int         | NO   | PRI | NULL    |       |
+| EF    | varchar(50) | YES  |     | NULL    |       |
+| EL    | varchar(50) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+
+select * from EMPLOYEE;
++------+----------+----------+
+| EID  | EF       | EL       |
++------+----------+----------+
+| 5001 | Robert   | Wilson   |
+| 5002 | Jennifer | Taylor   |
+| 5003 | Thomas   | Anderson |
+| 5004 | Lisa     | Martinez |
+| 5005 | James    | Garcia   |
++------+----------+----------+
+
+CORDER TABLE
+
+describe CORDER;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| COID    | int           | NO   | PRI | NULL    |       |
+| CODate  | date          | YES  |     | NULL    |       |
+| COPrice | decimal(10,2) | YES  |     | NULL    |       |
+| EID     | int           | YES  | MUL | NULL    |       |
+| CNum    | int           | YES  | MUL | NULL    |       |
++---------+---------------+------+-----+---------+-------+
+
+select * from CORDER;
++------+------------+----------+------+------+
+| COID | CODate     | COPrice  | EID  | CNum |
++------+------------+----------+------+------+
+| 7001 | 2023-01-15 |   899.99 | 5001 | 1001 |
+| 7002 | 2023-02-20 |  3549.92 | 5001 | 1001 |
+| 7003 | 2023-03-10 | 25000.00 | 5002 | 1001 |
+| 7004 | 2023-04-05 |  1349.97 | 5003 | 1002 |
+| 7005 | 2023-05-12 | 31000.00 | 5004 | 1003 |
++------+------------+----------+------+------+
+
+
+
+DETAIL TABLE
+
+describe DETAIL;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| COID  | int         | NO   | PRI | NULL    |       |
+| CID   | varchar(50) | NO   | PRI | NULL    |       |
+| OQty  | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+
+
+select * from DETAIL;
++------+--------+------+
+| COID | CID    | OQty |
++------+--------+------+
+| 7001 | CHA001 |    1 |
+| 7002 | BLA001 |    3 |
+| 7002 | VEN001 |    5 |
+| 7003 | PLA001 |    1 |
+| 7004 | BLU001 |    2 |
+| 7004 | VEN001 |    1 |
+| 7005 | PLA001 |    1 |
+| 7005 | TIM001 |    4 |
++------+--------+------+
+
+
+CARD TABLE
+
+describe CARD;
+--------+---------------+------+-----+---------+-------+
+| Field  | Type          | Null | Key | Default | Extra |
++--------+---------------+------+-----+---------+-------+
+| CID    | varchar(50)   | NO   | PRI | NULL    |       |
+| CName  | varchar(100)  | YES  |     | NULL    |       |
+| CBrand | varchar(50)   | YES  |     | NULL    |       |
+| CPrice | decimal(10,2) | YES  |     | NULL    |       |
+| SID    | varchar(50)   | YES  | MUL | NULL    |       |
++--------+---------------+------+-----+---------+-------+
+
+select * from CARD;
++--------+-------------+-----------+----------+--------+
+| CID    | CName       | CBrand    | CPrice   | SID    |
++--------+-------------+-----------+----------+--------+
+| BLA001 | Blastoise   | Pokemon   |   599.99 | SET001 |
+| BLU001 | Blue-Eyes   | Yu-Gi-Oh! |   499.99 | SET003 |
+| CHA001 | Charizard   | Pokemon   |   899.99 | SET001 |
+| PLA001 | Black Lotus | Magic     | 25000.00 | SET002 |
+| TIM001 | Time Walk   | Magic     |  1500.00 | SET002 |
+| VEN001 | Venusaur    | Pokemon   |   349.99 | SET001 |
++--------+-------------+-----------+----------+--------+
+
+CSET TABLE
+
+describe CSET;
++-------+--------------+------+-----+---------+-------+
+| Field | Type         | Null | Key | Default | Extra |
++-------+--------------+------+-----+---------+-------+
+| SID   | varchar(50)  | NO   | PRI | NULL    |       |
+| SName | varchar(100) | YES  |     | NULL    |       |
+| SDoR  | date         | YES  |     | NULL    |       |
++-------+--------------+------+-----+---------+-------+
+
+
+
+
+select * from CSET;
++--------+------------------+------------+
+| SID    | SName            | SDoR       |
++--------+------------------+------------+
+| SET001 | Pokemon Base Set | 1999-01-09 |
+| SET002 | Magic Core 2021  | 2020-07-03 |
+| SET003 | Yu-Gi-Oh! LOB    | 2002-03-08 |
+| SET004 | Pokemon Jungle   | 1999-06-16 |
+| SET005 | Magic Kamigawa   | 2005-02-04 |
++--------+------------------+------------+
+
+
+CPHONE TABLE
+
+describe CPHONE;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| CNum   | int         | NO   | PRI | NULL    |       |
+| CPhone | varchar(20) | NO   | PRI | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+
+select * from CPHONE;
++------+--------------+
+| CNum | CPhone       |
++------+--------------+
+| 1001 | 555-123-4567 |
+| 1001 | 555-987-6543 |
+| 1002 | 555-234-5678 |
+| 1003 | 555-345-6789 |
+| 1004 | 555-456-7890 |
++------+--------------+
