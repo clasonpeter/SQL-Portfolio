@@ -1,4 +1,4 @@
-Project Prompt I Created:
+Project Prompt I Created
 
 Description
 
@@ -12,7 +12,10 @@ CardVault keeps track of every customer’s first and last name, phone number (p
 
 Finally, some trading cards have evolutions, meaning they can transform into another card within the same game. A card may evolve into zero, one, or many other cards (its evolutions). Similarly, a card may evolve from zero, one, or many other cards (its pre-evolutions). For example: A Charmander card evolves into Charmeleon (1 evolution) and evolves from 0 other cards (it’s a base form).
 
-ERD Model: ![Screenshot 2025-04-28 094701](https://github.com/user-attachments/assets/f0cee107-a123-414d-ad5a-1a9abdeb36c5)
+ERD Model: 
+
+![Screenshot 2025-04-28 094701](https://github.com/user-attachments/assets/f0cee107-a123-414d-ad5a-1a9abdeb36c5)
+
 
 Conversion
 
